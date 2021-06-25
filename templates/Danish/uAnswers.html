@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Question{% endblock %}
+
+{% block content %}
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Answers To your questions!</h4>
+                    <p class="card-description">
+                        <div>
+                          {% if count == 0 %}
+                           <p>There are questions currently.</p>
+                           {% elif count == 1 %}
+                            <p>There is 1 question.</p>
+                            {% else %}
+                                <p>There are {{ count }} questions.</p>
+                                   {% endif %}
+                         </div>
+                    </p>
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                              <th>No</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Question</th>
+                              <th>Answer</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                                  {% for question in questions_list %}
+       <tr>
+           <td>{{ question.get_question_id() }}</td>
+           <td>{{ question.get_name() }}</td>
+           <td>{{ question.get_email() }}</td>
+           <td>{{ question.get_feedback() }}</td>
+           <td>{{ question.get_remark() }}</td>
+
+           </form>
+         </td>
+
+       </tr>
+    {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+{% endblock %}

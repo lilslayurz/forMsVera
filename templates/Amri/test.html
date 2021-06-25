@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+
+<style>.label {
+  color: white;
+  padding: 8px;
+}
+
+.success {background-color: #4CAF50;} /* Green */
+.info {background-color: #2196F3;} /* Blue */
+.warning {background-color: #ff9800;} /* Orange */
+.danger {background-color: #f44336;} /* Red */
+.other {background-color: #e7e7e7; color: black;} /* Gray */</style>
+
+<h1 class="display-4">Cart</h1>
+<div>
+    {% if count == 0 %}
+  <p>There are no items currently.</p>
+  {% elif count == 1 %}
+  <p>There is 1 item</p>
+  {% else %}
+  <p>There are {{ count }} items</p>
+  {% endif %}
+</div>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+          <th>Item</th>
+        <th>Description</th>
+        <th>Quantity</th>
+          <th>Unit Price</th>
+          <th>Sub-Total</th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for supplier in supplier_list %}
+          <tr>
+
+        <td><img src="static/img/{{ supplier.get_note() }}" style="width:200px;height;200px"></td>
+              <td>{{supplier.get_description() }}</td>
+        <td style="color:green;">{{ supplier.get_quantity() }}</td>
+              <td>${{ supplier.get_price() }}</td>
+              <td>${{ supplier.total_cost() }}</td>
+              <td></td>
+        <td><a href="/supplier_update/{{supplier.get_supplier_id()}}" class="btn btn-warning">Add To Cart</a></td>
+
+
+        <td>
+          <form action="{{url_for('delete_supplier', id=supplier.get_supplier_id())}}" method="POST">
+<!--            <input type="submit" value="Delete" class="btn btn-danger">-->
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal_{{supplier.get_supplier_id()}}">
+                  Delete
+                </button>
+<td></td>
+
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal_{{supplier.get_supplier_id()}}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Delete Confirmation</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            Are you sure you want to delete {{supplier.get_full_name()}} {{supplier.get_email()}}?
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <input type="submit" value="Delete" class="btn btn-danger">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+

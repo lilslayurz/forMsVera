@@ -1,0 +1,106 @@
+{% extends "Amri/supplier_base_template.html" %}
+{% block title %}List of Product Retrieval{% endblock %}
+
+{% block content %}
+
+<style>.label {
+  color: white;
+  padding: 8px;
+}
+
+.success {background-color: #4CAF50;} /* Green */
+.info {background-color: #2196F3;} /* Blue */
+.warning {background-color: #ff9800;} /* Orange */
+.danger {background-color: #f44336;} /* Red */
+.other {background-color: #e7e7e7; color: black;} /* Gray */</style>
+
+<h1 class="display-4">Supplier Orders</h1>
+<div>
+    {% if count == 0 %}
+  <p>There are no orders currently.</p>
+  {% elif count == 1 %}
+  <p>There is 1 order</p>
+  {% else %}
+  <p>There are {{ count }} orders.</p>
+  {% endif %}
+</div>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+          <th>Supplier ID</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Item Name</th>
+        <th>Category</th>
+        <th>Images</th>
+        <th>Quantity</th>
+          <th>Threshold</th>
+          <th></th>
+          <th></th>
+          <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for supplier in supplier_list %}
+          <tr>
+        <td>{{ supplier.get_supplier_id() }}</td>
+        <td>{{ supplier.get_full_name() }}</td>
+        <td>{{ supplier.get_email() }}</td>
+        <td>{{ supplier.get_description() }}</td>
+        <td>{{ supplier.get_category() }}</td>
+<!--                            Amri - this is to retrieve image field in static folder-->
+        <td><img src="static/img/{{ supplier.get_note() }}" style="width:200px;height;200px"></td>
+        <td>{{ supplier.get_quantity() }}</td>
+<td style="color:green;">                  {% if supplier.get_quantity() < 20 %}
+              Please restock
+              {% else %}
+              Enough
+              {% endif %}</td>
+
+        <td><a href="/supplier_update/{{supplier.get_supplier_id()}}" class="btn btn-warning">Update</a></td>
+              <td></td>
+        <td>
+          <form action="{{url_for('delete_supplier', id=supplier.get_supplier_id())}}" method="POST">
+<!--            <input type="submit" value="Delete" class="btn btn-danger">-->
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal_{{supplier.get_supplier_id()}}">
+                  Delete
+                </button>
+
+
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal_{{supplier.get_supplier_id()}}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Delete Confirmation</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            Are you sure you want to delete {{supplier.get_full_name()}} {{supplier.get_email()}}?
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <input type="submit" value="Delete" class="btn btn-danger">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+

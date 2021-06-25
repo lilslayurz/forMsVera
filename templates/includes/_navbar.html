@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Thrift Shop</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+           <li class="nav-item dropdown" >
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">Men</a>
+          <a class="dropdown-item" href="#">Ladies</a>
+          <a class="dropdown-item" href="#">Accessories</a>
+        </div>
+      </li>
+      </li>
+
+      {% if session %}
+        <a class="nav-link" href="/profile">Profile</a>
+
+         <li class="nav-item">
+        <a class="nav-link" href="/display_rewards">Rewards</a>
+      </li>
+
+      {% else %}
+        <li class="nav-item dropdown" >
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Login As
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/login">Member</a>
+          <a class="dropdown-item" href="/staff_login">Staff</a>
+          <a class="dropdown-item" href="/supplier_login/">Supplier</a>
+        </div>
+        </li>
+
+              <li class="nav-item">
+        <a class="nav-link" href="/register">Register</a>
+      </li>
+
+      {% endif %}
+
+      </li>
+         <li class="nav-item dropdown" >
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Support
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenu">
+          <a class="dropdown-item" href="/FAQ">FAQ</a>
+          <a class="dropdown-item" href="/Answers">Answers</a>
+          <a class="dropdown-item" href="/Order">Order Updates</a>
+        </div>
+        </li>
+    </ul>
+
+  </div>
+</nav>

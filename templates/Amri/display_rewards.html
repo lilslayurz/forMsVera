@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Rewards{% endblock %}
+
+{% block content %}
+<h1 class="display-4">Rewards</h1>
+<div>
+    {% if count == 0 %}
+  <p>There are no reward.</p>
+  {% elif count == 1 %}
+  <p>There is 1 reward.</p>
+  {% else %}
+  <p>There are {{ count }} rewards.</p>
+  {% endif %}
+
+</div>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Reward Number</th>
+        <th>Reward Description</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for reward in rewards_list %}
+      <tr>
+        <td>{{ reward.get_reward_code() }} </td>
+        <td>{{ reward.get_description() }} </td>
+        <td></td>
+    {% endfor %}
+
+    </tbody>
+  </table>
+</div>
+{% endblock %}

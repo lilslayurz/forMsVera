@@ -1,0 +1,76 @@
+{% extends "Staff/staff_basetemplate.html" %}
+{% block title %}Staff Rewards Retrieval{% endblock %}
+
+{% block content %}
+<h1 class="display-4">Retrieve Rewards</h1>
+<div>
+    {% if count == 0 %}
+  <p>There are no reward.</p>
+  {% elif count == 1 %}
+  <p>There is 1 reward.</p>
+  {% else %}
+  <p>There are {{ count }} rewards.</p>
+  {% endif %}
+
+</div>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Reward</th>
+        <th>Reward Number</th>
+        <th>Description</th>
+        <th></th>
+          <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for reward in rewards_list %}
+      <tr>
+        <td>{{ reward.get_reward_id() }}</td>
+        <td>{{ reward.get_reward_code() }}</td>
+          <td>{{ reward.get_description() }}</td>
+        <td><a href="/rewards_update/{{reward.get_reward_id()}}" class="btn btn-primary">Update</a></td>
+        <td>
+         <form action="{{url_for('delete_rewards', id=reward.get_reward_id())}}" method="POST">
+<!--            <input type="submit" value="Delete" class="btn btn-danger">-->
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal_{{reward.get_reward_id()}}">
+                  Delete
+                </button>
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal_{{reward.get_reward_id()}}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Delete Confirmation</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            Are you sure you want to delete {{reward.get_reward_code()}}?
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <input type="submit" value="Delete" class="btn btn-danger">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,80 @@
+{% extends "Staff/staff_basetemplate.html" %}
+{% block title %}Question{% endblock %}
+
+{% block content %}
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Questions From Customers</h4>
+                    <p class="card-description">
+                        <div>
+                          {% if count == 0 %}
+                           <p>There are questions currently.</p>
+                           {% elif count == 1 %}
+                            <p>There is 1 question.</p>
+                            {% else %}
+                                <p>There are {{ count }} questions.</p>
+                                   {% endif %}
+                         </div>
+                    </p>
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                              <th>No</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Question</th>
+                              <th>Answer</th>
+                              <th>Update</th>
+                              <th>Delete</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                                  {% for question in questions_list %}
+       <tr>
+           <td>{{ question.get_question_id() }}</td>
+           <td>{{ question.get_name() }}</td>
+           <td>{{ question.get_email() }}</td>
+           <td>{{ question.get_feedback() }}</td>
+           <td>{{ question.get_remark() }}</td>
+          <td><a href="/UpdateQuestion/{{question.get_question_id()}}" class="btn btn-warning">Update</a></td>
+         <td>
+           <form action="{{url_for('delete_question', id=question.get_question_id())}}" method="POST">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_{{question.get_question_id()}}">
+      Delete
+    </button>
+
+    <div class="modal" id="myModal_{{question.get_question_id()}}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h4 class="modal-title">Delete Confirmation</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            Are you sure you want to delete {{question.get_name()}}'s question?
+          </div>
+
+          <div class="modal-footer">
+              <input type="submit" value="Delete" class="btn btn-danger">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+           </form>
+         </td>
+
+       </tr>
+    {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+{% endblock %}

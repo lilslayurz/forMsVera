@@ -1,0 +1,76 @@
+{% extends "Staff/staff_basetemplate.html" %}
+{% block title %}Order Retrieval{% endblock %}
+
+{% block content %}
+<div>
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Orders</h4>
+                    <p class="card-description">
+                        <div>
+                          {% if count == 0 %}
+                           <p>There are no orders currently.</p>
+                           {% elif count == 1 %}
+                            <p>There is 1 order.</p>
+                            {% else %}
+                                <p>There are {{ count }} order.</p>
+                                   {% endif %}
+                         </div>
+                    </p>
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Order ID</th>
+                              <th>Order Status</th>
+                              <th>Update</th>
+                              <th>Delete</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                                  {% for checkout in checkouts_list %}
+       <tr>
+          <td>{{ checkout.get_name() }}</td>
+           <td>{{ checkout.get_email() }}</td>
+          <td>#{{ checkout.get_order_id() }}</td>
+          <td>{{ checkout.get_status() }}</td>
+
+          <td><a href="/UpdateOrder/{{checkout.get_order_id()}}" class="btn btn-warning">Update</a></td>
+         <td>
+           <form action="{{url_for('delete_order', id=checkout.get_order_id())}}" method="POST">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_{{checkout.get_order_id()}}">
+      Delete
+    </button>
+
+    <div class="modal" id="myModal_{{checkout.get_order_id()}}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h4 class="modal-title">Delete Confirmation</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            Are you sure you want to delete {{checkout.get_name()}} order?
+          </div>
+
+          <div class="modal-footer">
+              <input type="submit" value="Delete" class="btn btn-danger">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          </div>
+
+       </div>
+      </div>
+    </div>
+
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
